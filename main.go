@@ -38,17 +38,17 @@ func main() {
 				}
 				switch event.Op {
 				case fsnotify.Create:
-					log.Println("Dotfile added:", event.Name)
+					log.Println("dotfile added:", event.Name)
 					err = util.LinkDotFile(event.Name)
 				case fsnotify.Remove:
-					log.Println("Dotfile removed:", event.Name)
+					log.Println("dotfile removed:", event.Name)
 					err = util.UnLinkDotFile(event.Name)
 				case fsnotify.Chmod:
-					log.Println("Irrelevant operation:", event)
+					log.Println("irrelevant operation:", event)
 				case fsnotify.Rename:
-					log.Println("Irrelevant operation:", event)
+					log.Println("irrelevant operation:", event)
 				case fsnotify.Write:
-					log.Println("Irrelevant operation:", event)
+					log.Println("irrelevant operation:", event)
 				}
 			case err := <-watcher.Errors:
 				log.Println("error:", err)
