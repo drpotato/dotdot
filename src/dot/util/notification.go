@@ -1,4 +1,4 @@
-package dot
+package util
 
 import (
 	"github.com/deckarep/gosx-notifier"

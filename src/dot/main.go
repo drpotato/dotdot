@@ -1,28 +1,29 @@
-package dot
+package main
 
 import (
 	"log"
-	"os"
-	"os/user"
-	"path/filepath"
+	"path"
 
 	"gopkg.in/fsnotify.v1"
+
+	"dot/util"
 )
 
 func main() {
+
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer watcher.Close()
 
-	currentUser, err := user.Current()
-
-	userDir := currentUser.HomeDir
-	dotDir := userDir + "/.dot"
-
+	dotDir, err := util.GetDotDir()
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	ignoreFiles := map[string]bool{
+		path.Join(dotDir, ".dot"): true,
 	}
 
 	done := make(chan bool)
@@ -31,20 +32,22 @@ func main() {
 		for {
 			select {
 			case event := <-watcher.Events:
-				log.Println("event:", event)
-				if event.Op&fsnotify.Create == fsnotify.Create {
-					_, fileName := filepath.Split(event.Name)
-					newFileName := userDir + "/" + fileName
-					err = os.Symlink(event.Name, newFileName)
-					if err != nil {
-						log.Println(err)
-						err = NotifySymLinkError(newFileName)
-						if err != nil {
-							log.Println(err)
-						}
-
-					}
-					log.Println("File added:", fileName)
+				if ignoreFiles[event.Name] {
+					continue
+				}
+				switch event.Op {
+				case fsnotify.Create:
+					log.Println("Dotfile added:", event.Name)
+					err = util.LinkDotFile(event.Name)
+				case fsnotify.Remove:
+					log.Println("Dotfile removed:", event.Name)
+					err = util.UnLinkDotFile(event.Name)
+				case fsnotify.Chmod:
+					log.Println("Irrelevant operation:", event)
+				case fsnotify.Rename:
+					log.Println("Irrelevant operation:", event)
+				case fsnotify.Write:
+					log.Println("Irrelevant operation:", event)
 				}
 			case err := <-watcher.Errors:
 				log.Println("error:", err)
