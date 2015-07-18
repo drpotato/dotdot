@@ -6,7 +6,7 @@ import (
 
 	"gopkg.in/fsnotify.v1"
 
-	"dot/util"
+	"github.com/drpotato/dotdot/util"
 )
 
 func main() {
