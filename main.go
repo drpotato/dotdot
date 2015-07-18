@@ -17,10 +17,7 @@ func main() {
 	}
 	defer watcher.Close()
 
-	dotDir, err := filesystem.GetDotDirURI()
-	if err != nil {
-		log.Fatal(err)
-	}
+	dotDir := filesystem.GetDotDirURI()
 
 	ignoreFiles := map[string]bool{
 		filepath.Join(dotDir, ".dot"):       true,

@@ -1,35 +1,33 @@
 package filesystem
 
 import (
-	"path/filepath"
+	"log"
 	"os/user"
+	"path/filepath"
 )
 
-func GetSymLinkURI(uri string) (string, error) {
-	userDir, err := GetUserDirURI()
+func GetSymLinkURI(uri string) string {
+	userDir := GetUserDirURI()
 
 	_, fileName := filepath.Split(uri)
 	symLinkUri := filepath.Join(userDir, fileName)
 
-	return symLinkUri, err
+	return symLinkUri
 }
 
-func GetUserDirURI() (string, error) {
+func GetUserDirURI() string {
 
 	currentUser, err := user.Current()
 	if err != nil {
-		return "", err
+		log.Fatal(err)
 	}
 
-	return currentUser.HomeDir, nil
+	return currentUser.HomeDir
 }
 
-func GetDotDirURI() (string, error) {
+func GetDotDirURI() string {
 
-	userDir, err := GetUserDirURI()
-	if err != nil {
-		return "", err
-	}
+	userDir := GetUserDirURI()
 
 	return filepath.Join(userDir, ".dot"), nil
 }

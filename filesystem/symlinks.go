@@ -1,18 +1,16 @@
 package filesystem
+
 import (
 	"errors"
-	"os"
 	"github.com/drpotato/dotdot/notification"
+	"os"
 )
 
 func LinkDotFile(uri string) error {
 
-	symLinkUri, err := GetSymLinkURI(uri)
-	if err != nil {
-		return err
-	}
+	symLinkUri := GetSymLinkURI(uri)
 
-	err = os.Symlink(uri, symLinkUri)
+	err := os.Symlink(uri, symLinkUri)
 	if err != nil {
 		notification.NotifySymLinkError(symLinkUri)
 		return errors.New("failed to create symbolic link")
@@ -22,10 +20,7 @@ func LinkDotFile(uri string) error {
 
 func UnLinkDotFile(uri string) error {
 
-	symLinkUri, err := GetSymLinkURI(uri)
-	if err != nil {
-		return err
-	}
+	symLinkUri := GetSymLinkURI(uri)
 
 	targetUri, err := os.Readlink(symLinkUri)
 	if err != nil || targetUri != uri {
