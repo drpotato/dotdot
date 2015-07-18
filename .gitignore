@@ -27,7 +27,7 @@ _testmain.go
 *.test
 *.prof
 
-#####=== GB ===#####
+#####=== Project ===#####
 
-bin/
-pkg/
+# Compiled Binary
+dotdot
