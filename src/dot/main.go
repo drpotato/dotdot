@@ -2,7 +2,7 @@ package main
 
 import (
 	"log"
-	"path"
+	"path/filepath"
 
 	"gopkg.in/fsnotify.v1"
 
@@ -23,7 +23,8 @@ func main() {
 	}
 
 	ignoreFiles := map[string]bool{
-		path.Join(dotDir, ".dot"): true,
+		filepath.Join(dotDir, ".dot"):       true,
+		filepath.Join(dotDir, ".gitignore"): true,
 	}
 
 	done := make(chan bool)

@@ -16,9 +16,10 @@ func LinkDotFile(uri string) error {
 
 	err = os.Symlink(uri, symLinkUri)
 	if err != nil {
-		err = NotifySymLinkError(symLinkUri)
+		NotifySymLinkError(symLinkUri)
+		return errors.New("failed to create symbolic link")
 	}
-	return err
+	return nil
 }
 
 func UnLinkDotFile(uri string) error {
@@ -29,11 +30,9 @@ func UnLinkDotFile(uri string) error {
 	}
 
 	targetUri, err := os.Readlink(symLinkUri)
-	if err != nil {
-		return err
-	}
-	if targetUri != uri {
-		return errors.New("symlink mismatch")
+	if err != nil || targetUri != uri {
+		NotifyUnLinkError(symLinkUri)
+		return errors.New("failed to remove symbolic link")
 	}
 
 	return os.Remove(symLinkUri)
