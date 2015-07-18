@@ -6,7 +6,7 @@ import (
 
 	"gopkg.in/fsnotify.v1"
 
-	"github.com/drpotato/dotdot/util"
+	"github.com/drpotato/dotdot/filesystem"
 )
 
 func main() {
@@ -17,7 +17,7 @@ func main() {
 	}
 	defer watcher.Close()
 
-	dotDir, err := util.GetDotDir()
+	dotDir, err := filesystem.GetDotDirURI()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -39,10 +39,10 @@ func main() {
 				switch event.Op {
 				case fsnotify.Create:
 					log.Println("dotfile added:", event.Name)
-					err = util.LinkDotFile(event.Name)
+					err = filesystem.LinkDotFile(event.Name)
 				case fsnotify.Remove:
 					log.Println("dotfile removed:", event.Name)
-					err = util.UnLinkDotFile(event.Name)
+					err = filesystem.UnLinkDotFile(event.Name)
 				case fsnotify.Chmod:
 					log.Println("irrelevant operation:", event)
 				case fsnotify.Rename:
