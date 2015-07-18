@@ -66,11 +66,3 @@ func GetDotDir() (string, error) {
 
 	return filepath.Join(userDir, ".dot"), nil
 }
-
-func IsSymLink(uri string) bool {
-	file, err := os.Lstat(uri)
-	if err != nil {
-		return false
-	}
-	return file.Mode()&os.ModeSymlink == os.ModeSymlink
-}
