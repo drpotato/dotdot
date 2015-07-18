@@ -2,10 +2,10 @@ package main
 
 import (
 	"log"
-	"path/filepath"
 
 	"gopkg.in/fsnotify.v1"
 
+	"github.com/drpotato/dotdot/dotignore"
 	"github.com/drpotato/dotdot/filesystem"
 )
 
@@ -17,20 +17,13 @@ func main() {
 	}
 	defer watcher.Close()
 
-	dotDir := filesystem.GetDotDirURI()
-
-	ignoreFiles := map[string]bool{
-		filepath.Join(dotDir, ".dot"):       true,
-		filepath.Join(dotDir, ".gitignore"): true,
-	}
-
 	done := make(chan bool)
 
 	go func() {
 		for {
 			select {
 			case event := <-watcher.Events:
-				if ignoreFiles[event.Name] {
+				if dotignore.ShouldIgnore(event.Name) {
 					continue
 				}
 				switch event.Op {
@@ -52,6 +45,8 @@ func main() {
 			}
 		}
 	}()
+
+	dotDir := filesystem.GetDotDirURI()
 
 	err = watcher.Add(dotDir)
 	if err != nil {
