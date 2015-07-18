@@ -8,11 +8,8 @@ Enter .dot, a tool to manage the symbolic links of your dotfiles.
 ## Installing
 Pretty straight forward
 ```
-go get github.com/drpotato.dot
+go get github.com/drpotato/dotdot
 ```
-
-## Contributing
-DotDot uses [gb](https://getgb.io) as a build system and it's vendor plugin to manage dependencies.
 
 ## Why Go?
 Begining to use it at work and wanted to have a play with it.
