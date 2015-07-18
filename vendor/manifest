@@ -1,0 +1,23 @@
+{
+	"version": 0,
+	"dependencies": [
+		{
+			"importpath": "github.com/0xAX/notificator",
+			"repository": "https://github.com/0xAX/notificator",
+			"revision": "9d6b3c1101c778691e5f157d03f69e3191e3b904",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/deckarep/gosx-notifier",
+			"repository": "https://github.com/deckarep/gosx-notifier",
+			"revision": "003d0270280b003e0ebbf793859b73152749446e",
+			"branch": "master"
+		},
+		{
+			"importpath": "gopkg.in/fsnotify.v1",
+			"repository": "https://gopkg.in/fsnotify.v1",
+			"revision": "96c060f6a6b7e0d6f75fddd10efeaca3e5d1bcb0",
+			"branch": "master"
+		}
+	]
+}
