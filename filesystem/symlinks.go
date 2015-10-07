@@ -2,7 +2,7 @@ package filesystem
 
 import (
 	"errors"
-	"github.com/drpotato/dotdot/notification"
+	// "github.com/drpotato/dotdot/notification"
 	"os"
 )
 
@@ -12,10 +12,9 @@ func LinkDotFile(uri string) error {
 
 	err := os.Symlink(uri, symLinkUri)
 	if err != nil {
-		notification.NotifySymLinkError(symLinkUri)
-		return errors.New("failed to create symbolic link")
+		// notification.NotifySymLinkError(symLinkUri)
 	}
-	return nil
+	return err
 }
 
 func UnLinkDotFile(uri string) error {
@@ -24,7 +23,7 @@ func UnLinkDotFile(uri string) error {
 
 	targetUri, err := os.Readlink(symLinkUri)
 	if err != nil || targetUri != uri {
-		notification.NotifyUnLinkError(symLinkUri)
+		// notification.NotifyUnLinkError(symLinkUri)
 		return errors.New("failed to remove symbolic link")
 	}
 
