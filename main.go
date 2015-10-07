@@ -54,7 +54,7 @@ func main() {
 		log.Fatal(err)
 	}
 	for _, file := range files {
-		if file.IsDir() || dotignore.ShouldIgnore(file.Name()) {
+		if dotignore.ShouldIgnore(file.Name()) {
 			continue
 		}
 		err = filesystem.LinkDotFile(file.Name())
