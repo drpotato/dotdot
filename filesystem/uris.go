@@ -4,7 +4,6 @@ import (
 	"log"
 	"os/user"
 	"path/filepath"
-	"sync"
 )
 
 func GetSymLinkURI(uri string) string {
@@ -17,32 +16,18 @@ func GetSymLinkURI(uri string) string {
 	return symLinkUri
 }
 
-var userDirOnce sync.Once
-var userDirUri string
-
 func GetUserDirURI() string {
 
-	userDirOnce.Do(func() {
-		currentUser, err := user.Current()
-		if err != nil {
-			log.Fatal(err)
-		}
-		userDirUri = currentUser.HomeDir
-	})
-
-	return userDirUri
+	currentUser, err := user.Current()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return currentUser.HomeDir
 }
-
-var dotDirOnce sync.Once
-var dotDirUri string
 
 func GetDotDirURI() string {
 
 	userDir := GetUserDirURI()
 
-	dotDirOnce.Do(func() {
-		dotDirUri = filepath.Join(userDir, ".dot")
-	})
-
-	return dotDirUri
+	return filepath.Join(userDir, ".dot")
 }
