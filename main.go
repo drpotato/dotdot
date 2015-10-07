@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io/ioutil"
 	"log"
 
 	"gopkg.in/fsnotify.v1"
@@ -47,6 +48,20 @@ func main() {
 	}()
 
 	dotDir := filesystem.GetDotDirURI()
+
+	files, err := ioutil.ReadDir(dotDir)
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, file := range files {
+		if file.IsDir() || dotignore.ShouldIgnore(file.Name()) {
+			continue
+		}
+		err = filesystem.LinkDotFile(file.Name())
+		if err != nil {
+			log.Print(err)
+		}
+	}
 
 	err = watcher.Add(dotDir)
 	if err != nil {
