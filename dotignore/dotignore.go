@@ -27,6 +27,7 @@ func ShouldIgnore(uri string) bool {
 func GetIgnoredFiles() map[string]bool {
 	once.Do(func() {
 		ignoredFiles = map[string]bool{
+			".git":       true,
 			".gitignore": true,
 		}
 		loadDotIgnore()
